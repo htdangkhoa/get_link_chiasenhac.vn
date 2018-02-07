@@ -5,7 +5,7 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon app/server.js --exec babel-node",
-    "build": "babel app -d dist",
+    "build": "babel app -d dist && npm run minify",
     "minify": "minify dist -d dist",
     "start": "node dist/server.js"
   },
