@@ -1,6 +1,5 @@
 import axios from 'axios'
 import cheerio from 'cheerio'
-import request from 'request'
 
 const BASE_URL = 'http://search.chiasenhac.vn/search.php?s='
 
