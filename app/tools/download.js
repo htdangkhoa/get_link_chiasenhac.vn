@@ -1,14 +1,15 @@
 import axios from 'axios'
 import cheerio from 'cheerio'
 
-let download = (url, res) => {
+let download = async (url, res) => {
     if (!url) return res.status(400).send(`${res.statusCode}: Bad Request.`)
 
-    axios({
-        url,
-        method: 'GET'
-    })
-    .then(_r => {
+    try {
+        let _r = await axios({
+            url,
+            method: 'GET'
+        })
+
         let array_download = []
         let $ = cheerio.load(_r.data)
         
@@ -23,10 +24,9 @@ let download = (url, res) => {
         })
 
         return res.status(200).send(array_download)
-    })
-    .catch(_e => {
+    } catch (_e) {
         return res.status(200).send(_e)
-    })
+    }
 }
 
 export default download

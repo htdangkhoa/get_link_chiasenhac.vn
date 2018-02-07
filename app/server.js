@@ -9,7 +9,9 @@ dotenv.config()
 
 const numCPUs = os.cpus().length
 const app = express()
-app.use(morgan('dev'))
+app.use([
+    morgan('dev')
+])
 
 if (cluster.isMaster) {
     console.log(`Server is running on port ${process.env.PORT}`)
@@ -28,7 +30,7 @@ if (cluster.isMaster) {
     app.get('/search', (req, res) => {
         let q = req.param('q')
     
-        search(q.replace(/ /g, '+'), res)
+        return search(q.replace(/ /g, '+'), res)
     })
     
     app.get('/download', (req, res) => {
@@ -36,10 +38,10 @@ if (cluster.isMaster) {
     
         if (link.indexOf('_download.html') === -1) link = link.replace('.html', '_download.html')
         
-        download(link, res)
+        return download(link, res)
     })
     
     app.listen(process.env.PORT, () => {
         console.log(`Server is running on port ${process.env.PORT}.`)
-    })
+    })   
 }

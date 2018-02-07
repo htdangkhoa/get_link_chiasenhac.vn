@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon server.js --exec babel-node",
+    "dev": "nodemon app/server.js --exec babel-node",
     "build": "babel app -d dist && npm run minify",
     "minify": "minify dist -d dist",
     "start": "node dist/server.js"
