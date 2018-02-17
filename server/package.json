@@ -4,17 +4,25 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "nodemon app/server.js --exec babel-node",
-    "build": "babel app -d dist && npm run minify",
+    "dev": "nodemon server.js --exec babel-node",
+    "build": "babel ./ -d dist && npm run minify",
     "minify": "minify dist -d dist",
     "start": "node dist/server.js"
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "bootstrap": "4.x.x",
     "cheerio": "^1.0.0-rc.2",
+    "consolidate": "^0.15.0",
     "dotenv": "^5.0.0",
     "express": "^4.16.2",
-    "morgan": "^1.9.0"
+    "jquery": "^3.3.1",
+    "morgan": "^1.9.0",
+    "mustache": "^2.3.0",
+    "preact": "^8.2.7",
+    "preact-compat": "^3.18.0",
+    "reactstrap": "next",
+    "styled-components": "^3.1.6"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

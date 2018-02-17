@@ -3,6 +3,8 @@ import os from 'os'
 import dotenv from 'dotenv'
 import express from 'express'
 import morgan from 'morgan'
+import path from 'path'
+import consolidate from 'consolidate'
 import { search, download } from './tools'
 
 dotenv.config()
@@ -12,6 +14,21 @@ const app = express()
 app.use([
     morgan('dev')
 ])
+
+app.use((req, res, next) => {
+    res.render = (file, params) => {
+        let filePath = path.resolve(__dirname, '../client', file)
+        
+        consolidate.mustache(filePath, params || {}, (error, html) => {
+            if (error) return next(error)
+
+            res.set('Content-Type', 'text/html')
+            res.status(200).send(html)
+        })
+    }
+
+    next()
+})
 
 if (cluster.isMaster) {
     console.log(`Server is running on port ${process.env.PORT}`)
@@ -27,6 +44,10 @@ if (cluster.isMaster) {
         cluster.fork()
     })
 } else {
+    app.get('/', (req, res) => {
+        res.render('index.html')
+    })
+
     app.get('/search', (req, res) => {
         let q = req.param('q')
     
