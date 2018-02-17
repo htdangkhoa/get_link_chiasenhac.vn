@@ -2,8 +2,14 @@ import { h, render, Component } from 'preact'
 import { ListGroup, ListGroupItem } from 'reactstrap'
 import styledComponents from 'styled-components'
 
+import { connect } from 'react-redux'
+
 const Wrapper = styledComponents.div`
     margin: 15px 0;
+
+    &.hidden {
+        display: none;
+    }
 
     .title, .artist {
         margin-bottom: 5px;
@@ -15,42 +21,70 @@ const Wrapper = styledComponents.div`
     }
 
     .title {
-        ._32kbps, ._180p {
+        .greenblue {
             color: #16758C;
         }
     
-        ._128kbps, ._360p {
+        .darkgreen {
             color: darkgreen;
         }
     
-        ._320kbps, ._480p {
+        .darkblue {
             color: darkblue;
         }
     
-        ._500kbps, ._720p {
+        .orange {
             color: orange;
         }
     
-        ._lossless, ._1080p {
+        .red {
             color: red;
         }
     }
 `
 
-export default class Result extends Component {
+class Result extends Component {
+    getQuality = (quality) => {
+        switch (quality.toLowerCase()) {
+            case '32kbps': case '180p':
+                return 'greenblue'
+            case '128kbps': case '360p':
+                return 'darkgreen'
+            case '320kbps': case '480p':
+                return 'darkblue'
+            case '500kbps': case 'HD 720p':
+                return 'orange'
+            case 'lossless': case 'HD 1080p':
+                return 'red'
+            default: return 'greenblue'
+        }
+    }
+
     render() {
         return(
             <Wrapper>
                 <ListGroup>
-                    <ListGroupItem>
-                        <p class='title'>
-                            <a href='http://m2.chiasenhac.vn/mp3/vietnam/v-pop/minh-cuoi-nhau-di~huynh-james-pjnboys~tsvcwtrwqv9fa9.html'>Mình Cưới Nhau Đi</a> <span>3:55</span> <span class='_lossless'>Lossless</span>
-                        </p>
-                        
-                        <p class='artist'>Huỳnh James; Pjnboys</p>
-                    </ListGroupItem>
+                    {
+                        this.props.songs.map(song => 
+                            <ListGroupItem>
+                                <p className='title'>
+                                    <a href={song.url}>{song.title} </a>
+                                    <span>{song.duration} </span>
+                                    <span className={ this.getQuality(song.quality) }>
+                                        {song.quality}
+                                    </span>
+                                </p>
+                                
+                                <p className='artist'>{song.artist}</p>
+                            </ListGroupItem>
+                        )
+                    }
                 </ListGroup>
             </Wrapper>
         )
     }
 }
+
+export default connect(state => ({
+    songs: state.songs
+}))(Result)

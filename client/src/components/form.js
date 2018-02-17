@@ -4,6 +4,9 @@ import { TiZoom } from 'react-icons/lib/ti'
 import styledComponents from 'styled-components'
 import axios from 'axios'
 
+// Redux
+import { connect } from 'react-redux'
+
 const Wrapper  = styledComponents.div`
     margin-top: 15px;
 
@@ -17,7 +20,7 @@ const Wrapper  = styledComponents.div`
     }
 `
 
-export default class Form extends Component {
+class Form extends Component {
     constructor(props) {
         super(props)
 
@@ -27,14 +30,20 @@ export default class Form extends Component {
     }
 
     search = async () => {
-        console.log(this.state.value);
+        const { dispatch } = this.props
 
         let res = await axios({
-            url: 'http://localhost:8888/search?q=minh%20cuoi%20nhau%20di',
-            method: 'get'
+            url: 'http://localhost:8888/search',
+            method: 'get',
+            params: {
+                q: this.state.value
+            }
         })
 
-        console.log(res);
+        dispatch({
+            type: 'FETCH_SONG',
+            songs: res.data
+        })
     }
 
     handleChange(event) {
@@ -45,7 +54,7 @@ export default class Form extends Component {
         return(
             <Wrapper>
                 <InputGroup>
-                    <Input placeholder='Aa...' onChange={this.handleChange.bind(this)} />
+                    <Input placeholder='Search song, video,...' onChange={this.handleChange.bind(this)} />
                     <div className='input-group-append'>
                         <button className='input-group-text' onclick={this.search.bind(this)}>
                             <TiZoom className='flip'/>
@@ -56,3 +65,7 @@ export default class Form extends Component {
         )
     }
 }
+
+export default connect(state => ({
+    songs: state.songs
+}))(Form)

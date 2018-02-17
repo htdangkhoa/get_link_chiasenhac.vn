@@ -5,6 +5,10 @@ import { h, render } from 'preact'
 import App from './src/components/app'
 import styledComponents from 'styled-components'
 
+// Redux
+import { Provider } from 'react-redux'
+import store from './src/redux/store'
+
 const Wrapper = styledComponents.body`
     textarea:hover, 
     input:hover, 
@@ -35,7 +39,9 @@ const Wrapper = styledComponents.body`
 `
 
 render((
-    <Wrapper>
-        <App />
-    </Wrapper>
+    <Provider store={store}>
+        <Wrapper>
+            <App />
+        </Wrapper>
+    </Provider>
 ), document.body)

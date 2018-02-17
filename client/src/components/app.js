@@ -4,6 +4,10 @@ import Form from './form'
 import Result from './result'
 
 export default class App extends Component {
+    constructor(props) {
+        super(props)
+    }
+
     render() {
         return(
             <Container>
