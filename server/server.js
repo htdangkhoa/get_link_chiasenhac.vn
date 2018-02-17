@@ -2,6 +2,7 @@ import cluster from 'cluster'
 import os from 'os'
 import dotenv from 'dotenv'
 import express from 'express'
+import cors from 'cors'
 import morgan from 'morgan'
 import path from 'path'
 import consolidate from 'consolidate'
@@ -12,7 +13,8 @@ dotenv.config()
 const numCPUs = os.cpus().length
 const app = express()
 app.use([
-    morgan('dev')
+    morgan('dev'),
+    cors()
 ])
 
 app.use((req, res, next) => {
