@@ -33,7 +33,7 @@ class Form extends Component {
         const { dispatch } = this.props
 
         let res = await axios({
-            url: 'http://localhost:8888/search',
+            url: 'http://192.168.1.11:8888/search',
             method: 'get',
             params: {
                 q: this.state.value

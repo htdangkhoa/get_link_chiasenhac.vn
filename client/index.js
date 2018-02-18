@@ -5,6 +5,9 @@ import { h, render } from 'preact'
 import App from './src/components/app'
 import styledComponents from 'styled-components'
 
+// Router
+import Router from './router'
+
 // Redux
 import { Provider } from 'react-redux'
 import store from './src/redux/store'
@@ -41,7 +44,7 @@ const Wrapper = styledComponents.body`
 render((
     <Provider store={store}>
         <Wrapper>
-            <App />
+            <Router />
         </Wrapper>
     </Provider>
 ), document.body)

@@ -68,7 +68,7 @@ class Result extends Component {
                         this.props.songs.map(song => 
                             <ListGroupItem>
                                 <p className='title'>
-                                    <a href={song.url}>{song.title} </a>
+                                    <a href={`localhost:8888/download?link=${song.url}`}>{song.title} </a>
                                     <span>{song.duration} </span>
                                     <span className={ this.getQuality(song.quality) }>
                                         {song.quality}
