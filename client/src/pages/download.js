@@ -42,7 +42,7 @@ class Download extends Component {
         let {dispatch} = this.props
 
         let res = await axios({
-            url: 'http://192.168.1.11:8888/download',
+            url: 'http://192.168.1.11:9000/download',
             method: 'get',
             params: {
                 link: window.atob(this.props.link)
