@@ -24,8 +24,6 @@ const Wrapper = styledComponents.div`
         margin-bottom: 0;
         background: #e9ecef;
         border: 1px solid #ced4da;
-        border-top-right-radius: 0.25rem;
-        border-bottom-right-radius: 0.25rem;
         padding: 0px 15px;
         display: flex;
         align-items: center;
@@ -123,7 +121,7 @@ export default class Player extends Component {
                 <ReactPlayer 
                     hidden 
                     ref={this.ref} 
-                    url='http://data.chiasenhac.com/downloads/1870/0/1869570-2eb3d49d/128/Minh%20Cuoi%20Nhau%20Di%20-%20Huynh%20James_%20Pjnboys%20[128kbps_MP3].mp3' 
+                    url={this.props.url} 
                     playing={this.state.playing} 
                     loop 
                     onReady={this.onReady}

@@ -1,5 +1,7 @@
 const FETCH_SONG = 'FETCH_SONG'
+const FETCH_LINK = 'FETCH_LINK'
 
 export {
-    FETCH_SONG
+    FETCH_SONG,
+    FETCH_LINK
 }

@@ -10,7 +10,7 @@ export default class Router extends Component {
         return(
             <Routes>
                 <Home path='/'/>
-                <Download path='/download'/>
+                <Download path='/download/:title/:artist/:link'/>
                 <Error type='404' default/>
             </Routes>
         )

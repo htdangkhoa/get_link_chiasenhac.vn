@@ -6,6 +6,7 @@ import axios from 'axios'
 
 // Redux
 import { connect } from 'react-redux'
+import { FETCH_SONG } from '../redux/action'
 
 const Wrapper  = styledComponents.div`
     margin-top: 15px;
@@ -41,7 +42,7 @@ class Form extends Component {
         })
 
         dispatch({
-            type: 'FETCH_SONG',
+            type: FETCH_SONG,
             songs: res.data
         })
     }
