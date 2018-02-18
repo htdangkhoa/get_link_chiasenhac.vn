@@ -33,7 +33,6 @@ app.use((req, res, next) => {
 })
 
 if (cluster.isMaster) {
-    console.log(`Server is running on port ${process.env.PORT}`)
     console.log(`Master ${process.pid} is running`)
 
     for (let i = 0; i < numCPUs; i++) {
@@ -46,6 +45,11 @@ if (cluster.isMaster) {
         cluster.fork()
     })
 } else {
+    console.log(`Worker ${process.pid} is running`)
+
+    const args = process.argv.splice(2)
+    const port = args[0] || process.env.PORT
+
     app.get('/', (req, res) => {
         res.render('index.html')
     })
@@ -64,7 +68,7 @@ if (cluster.isMaster) {
         return download(link, res)
     })
     
-    app.listen(process.env.PORT, () => {
-        console.log(`Server is running on port ${process.env.PORT}.`)
-    })   
+    app.listen(port, () => {
+        console.log(`Server is running on port ${port}.`)
+    })
 }

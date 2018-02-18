@@ -1,4 +1,0 @@
-{
-    "presets": ["es2016", "stage-3", "node8"],
-    "plugins": []
-}
