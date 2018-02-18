@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 
 const Wrapper = styledComponents.div`
     margin-top: 15px;
+    margin-bottom: 15px;
 
     p {
         margin-bottom: 5px;
