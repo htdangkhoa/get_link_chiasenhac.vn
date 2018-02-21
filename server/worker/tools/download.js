@@ -16,10 +16,15 @@ let download = async (url, res) => {
         $('#downloadlink2 b a').each((i, elem) => {
             let link = $(elem).attr('href')
             let arr = link.split(' ')
+            let label = arr[1].substring(0, arr[1].indexOf('.')).replace(/\[/g, '').replace(/\]/g, '')
+            let quality = label.split('_')[0]
+            let file_type = label.split('_')[1].toLocaleLowerCase()
 
             array_download.push({
-                link: link.replace(/ /g, '%20'),
-                label: arr[1].substring(0, arr[1].indexOf('.')).replace(/\[/g, '').replace(/\]/g, '')
+                link: link.replace(/ /g, ''),
+                label,
+                quality, 
+                file_type
             })
         })
 
