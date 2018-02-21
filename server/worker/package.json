@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
-    "dev": "npm run webpack && nodemon build/bundle.js",
+    "dev": "npm run build && nodemon build/bundle.js",
     "start": "node build/bundle.js"
   },
   "dependencies": {

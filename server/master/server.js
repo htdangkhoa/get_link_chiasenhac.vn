@@ -12,15 +12,15 @@ const proxy = httpProxy.createProxyServer({})
 
 const addresses = [
     {
-        host: '192.168.1.11',
+        host: '0.0.0.0',
         port: 9001
     },
     {
-        host: '192.168.1.11',
+        host: '0.0.0.0',
         port: 9002
     },
     {
-        host: '192.168.1.11',
+        host: '0.0.0.0',
         port: 9003
     }
 ]
@@ -51,7 +51,7 @@ if (cluster.isMaster) {
         })
     })
     
-    app.listen(port, () => {
+    app.listen(port, '0.0.0.0', () => {
         console.log(`Server is running on port ${port}.`)
     })
 }

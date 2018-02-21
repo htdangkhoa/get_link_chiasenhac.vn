@@ -169,7 +169,7 @@ if (__WEBPACK_IMPORTED_MODULE_0_cluster___default.a.isMaster) {
         return Object(__WEBPACK_IMPORTED_MODULE_8__tools__["a" /* download */])(link, res)
     })
     
-    app.listen(port, () => {
+    app.listen(port, '0.0.0.0', () => {
         console.log(`Server is running on port ${port}.`)
     })
 }
