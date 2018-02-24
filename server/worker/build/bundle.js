@@ -157,8 +157,9 @@ if (__WEBPACK_IMPORTED_MODULE_0_cluster___default.a.isMaster) {
 
     app.get('/search', (req, res) => {
         let q = req.param('q')
+        let p = req.param('p')
     
-        return Object(__WEBPACK_IMPORTED_MODULE_8__tools__["b" /* search */])(q.replace(/ /g, '+'), res)
+        return Object(__WEBPACK_IMPORTED_MODULE_8__tools__["b" /* search */])(q.replace(/ /g, '+'), p, res)
     })
     
     app.get('/download', (req, res) => {
@@ -249,16 +250,23 @@ module.exports = require("consolidate");
 
 
 
-const BASE_URL = 'http://search.chiasenhac.vn/search.php?s='
+const BASE_URL = 'http://search.chiasenhac.vn/search.php'
 
-let search = async (s, res) => {
+let search = async (s, p, res) => {
     try {
         let _r = await __WEBPACK_IMPORTED_MODULE_0_axios___default()({
-            url: BASE_URL + s,
-            method: 'get'
+            url: BASE_URL,
+            method: 'get',
+            params: {
+                s,
+                page: p
+            }
         })
-        let formData = []
+
         let $ = __WEBPACK_IMPORTED_MODULE_1_cheerio___default.a.load(_r.data)
+
+        let formData = []
+        let pages = $('li a.npage').length || 0
     
         $('.tbtable tbody tr').each((i, elem) => {
             let title = $(elem).find('.tenbh p .musictitle').text()
@@ -280,7 +288,10 @@ let search = async (s, res) => {
             }
         })
 
-        return res.status(200).send(formData)
+        return res.status(200).send({
+            formData,
+            pages
+        })
     } catch (_e) {
         return res.status(200).send(_e)
     }

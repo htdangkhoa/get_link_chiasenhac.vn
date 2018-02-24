@@ -56,8 +56,9 @@ if (cluster.isMaster) {
 
     app.get('/search', (req, res) => {
         let q = req.param('q')
+        let p = req.param('p')
     
-        return search(q.replace(/ /g, '+'), res)
+        return search(q.replace(/ /g, '+'), p, res)
     })
     
     app.get('/download', (req, res) => {

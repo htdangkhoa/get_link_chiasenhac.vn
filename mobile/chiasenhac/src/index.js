@@ -27,7 +27,7 @@ let loadIcons = (icons) => {
     })
 }
 
-export default registerApp = async (store, Provider) => {
+export default registerApp = async (Store, Provider) => {
     Navigation.registerComponent('Screen.Search', () => Screens.Search)
     Navigation.registerComponent('Screen.Download', () => Screens.Download)
 
