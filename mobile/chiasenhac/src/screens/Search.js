@@ -1,10 +1,19 @@
 import React, { Component } from 'react'
-import { SafeAreaView, ScrollView, View, Text, FlatList, LayoutAnimation, StyleSheet } from 'react-native'
+import { 
+    SafeAreaView, 
+    ScrollView, 
+    View, 
+    Text, 
+    LayoutAnimation, 
+    StyleSheet 
+} from 'react-native'
 import { OptimizedFlatList } from 'react-native-optimized-flatlist'
 import axios from 'axios'
 
+// My Component
 import SearchField from '../components/SearchField'
 import ListItem from '../components/ListItem'
+import MiniPlayer from '../components/MiniPlayer'
 
 class Search extends Component {
     constructor(props) {
@@ -20,14 +29,14 @@ class Search extends Component {
         let dt = []
 
         let _r = await axios({
-            url: 'http://0.0.0.0:9000/search?q=1 2 3 4',
+            url: 'http://192.168.1.6:9000/search?q=xin dung lang im',
             method: 'get'
         })
 
         _r.data.formData.forEach((song, index) => {
             dt.push({
                 song,
-                key: index
+                key: `${index}`
             })
         })
 
@@ -74,13 +83,15 @@ class Search extends Component {
     render() {
         return(
                 <SafeAreaView style={styles.container}>
-                    <ScrollView 
-                        ref='scrollView' 
-                        style={styles.scrollView} 
-                        scrollEnabled={false} >
+                    <View style={styles.scrollView} >
+                        <ScrollView 
+                            ref='scrollView' 
+                            style={{}} 
+                            scrollEnabled={false} >
 
-                        <SearchField />
-                    </ScrollView>
+                            <SearchField />
+                        </ScrollView>
+                    </View>
 
                     <OptimizedFlatList 
                         style={styles.optimizedFlatList} 
@@ -89,6 +100,8 @@ class Search extends Component {
                         renderItem={({item}) => 
                             <ListItem title={item.song.title} artist={item.song.artist} quality={item.song.quality} />
                         } />
+
+                    <MiniPlayer />
                 </SafeAreaView>
         )
     }
@@ -105,6 +118,7 @@ const styles = StyleSheet.create({
     },
 
     optimizedFlatList: {
+        flex: 1,
         paddingBottom: 16
     }
 })

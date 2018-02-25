@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import ElevatedView from 'react-native-elevated-view'
-import { material } from 'react-native-typography'
-import { iOSUIKit, iOSColors } from 'react-native-typography';
+import { iOSUIKit, iOSColors } from 'react-native-typography'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Navigation } from 'react-native-navigation'
 
@@ -46,7 +45,7 @@ class ListItem extends Component {
                             </View>
                         </View>
                     </View>
-                    
+
                     <TouchableOpacity>
                         <Icon 
                             name='ios-more' 
