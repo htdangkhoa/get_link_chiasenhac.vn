@@ -110,7 +110,8 @@ class Search extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1, 
-        flexDirection: 'column'
+        flexDirection: 'column',
+        backgroundColor: '#F8F8F8'
     },
 
     scrollView: {

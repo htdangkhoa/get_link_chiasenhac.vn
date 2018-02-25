@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row', 
         alignItems: 'center', 
-        backgroundColor: 'rgba(142, 142, 147, .24)', 
+        backgroundColor: 'rgba(142, 142, 142, .12)', 
         borderRadius: 10, 
         paddingLeft: 8, 
         paddingRight: 8, 

@@ -44,7 +44,9 @@ export default registerApp = async (Store, Provider) => {
             appStyle: {
                 largeTitle: true,
                 navBarNoBorder: true,
-                tabBarBackgroundColor: 'white'
+                screenBackgroundColor: '#FFFFFF',
+                tabBarBackgroundColor: '#F8F8F8',
+                navBarBackgroundColor: '#F8F8F8'
             }
         })
     })
