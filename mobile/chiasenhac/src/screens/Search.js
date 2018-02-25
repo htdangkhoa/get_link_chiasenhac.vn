@@ -9,6 +9,7 @@ import {
 } from 'react-native'
 import { OptimizedFlatList } from 'react-native-optimized-flatlist'
 import axios from 'axios'
+import { Player } from 'react-native-audio-toolkit'
 
 // My Component
 import SearchField from '../components/SearchField'
@@ -26,6 +27,10 @@ class Search extends Component {
     }
 
     async componentWillMount() {
+        this.player = null
+
+        this._reloadPlayer()
+
         let dt = []
 
         let _r = await axios({
@@ -41,6 +46,27 @@ class Search extends Component {
         })
 
         this.setState({data: dt})
+    }
+
+    _reloadPlayer = () => {
+        if (this.player) {
+            this.player.destroy();
+          }
+      
+          this.player = new Player('http://data3.chiasenhac.com/downloads/1793/1/1792139-ba17664c/flac/1%202%203%204%20-%20Chi%20Dan[Lossless_FLAC].flac', {
+            autoDestroy: false,
+            continuesToPlayInBackground: true,
+            wakeLock: true
+          }).prepare((err) => {
+            if (err) {
+              console.log('error at _reloadPlayer():');
+              console.log(err);
+            } else {
+              this.player.looping = false
+            }
+      
+            // this._updateState();
+          }).play()
     }
 
     _listViewOffset = 0
