@@ -1,12 +1,14 @@
 import React, { Component } from 'react'
-import { SafeAreaView, ScrollView, View, Text, FlatList, LayoutAnimation } from 'react-native'
+import { SafeAreaView, ScrollView, View, Text, FlatList, LayoutAnimation, StyleSheet } from 'react-native'
+import { OptimizedFlatList } from 'react-native-optimized-flatlist'
+import axios from 'axios'
 
 import SearchField from '../components/SearchField'
 import ListItem from '../components/ListItem'
 
 class Search extends Component {
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
 
         this.state = {
             data: [],
@@ -14,14 +16,20 @@ class Search extends Component {
         }
     }
 
-    componentWillMount() {
+    async componentWillMount() {
         let dt = []
-        for (let i = 0; i < 50; i++) {
+
+        let _r = await axios({
+            url: 'http://0.0.0.0:9000/search?q=1 2 3 4',
+            method: 'get'
+        })
+
+        _r.data.formData.forEach((song, index) => {
             dt.push({
-                title: i,
-                key: `key${i}`
+                song,
+                key: index
             })
-        }
+        })
 
         this.setState({data: dt})
     }
@@ -41,21 +49,8 @@ class Search extends Component {
         const offset = event.nativeEvent.contentOffset.y
         const currentOffset = (offset > limit) ? limit : offset
         
-        const direction = (currentOffset > 0 && currentOffset >= this._listViewOffset)
-          ? 'down'
-          : 'up'
-
-        // If the user is scrolling down (and the action-button is still visible) hide it
-        // const isActionButtonVisible = direction === 'up'
-        // // const isActionButtonVisible = direction === 'down'
-        // if (isActionButtonVisible !== this.state.isActionButtonVisible) {
-        //   LayoutAnimation.configureNext(CustomLayoutLinear)
-        //   this.setState({ isActionButtonVisible })
-        //     this.refs.scrollView.scrollToEnd()
-        //     // this.refs.scrollView.scrollTo({x: 0, y: 0, animated: false})
-        // } else {
-        //     this.refs.scrollView.scrollTo({x: 0, y: 0, animated: true})
-        // }   
+        const direction = (currentOffset > 0 && currentOffset >= this._listViewOffset) ? 'down' : 'up'
+           
         if (currentOffset > 0 && this.state.isTop && direction === 'down') {
             // this.refs.scrollView.scrollTo({x: 0, y: 0, animated: true})
             this.refs.scrollView.scrollTo({x: 0, y: 70, animated: false})
@@ -78,16 +73,40 @@ class Search extends Component {
 
     render() {
         return(
-            //<ScrollView>
-                <SafeAreaView style={{flex: 1, flexDirection: 'column'}}>
-                    <ScrollView ref='scrollView' style={{height: 70}} scrollEnabled={false} >
+                <SafeAreaView style={styles.container}>
+                    <ScrollView 
+                        ref='scrollView' 
+                        style={styles.scrollView} 
+                        scrollEnabled={false} >
+
                         <SearchField />
                     </ScrollView>
-                    <FlatList style={{paddingBottom: 16}} onScroll={this._onScroll} data={this.state.data} renderItem={({item}) => <ListItem item={item.title} />} />
+
+                    <OptimizedFlatList 
+                        style={styles.optimizedFlatList} 
+                        onScroll={this._onScroll} 
+                        data={this.state.data} 
+                        renderItem={({item}) => 
+                            <ListItem title={item.song.title} artist={item.song.artist} quality={item.song.quality} />
+                        } />
                 </SafeAreaView>
-            //</ScrollView>
         )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1, 
+        flexDirection: 'column'
+    },
+
+    scrollView: {
+        height: 70
+    },
+
+    optimizedFlatList: {
+        paddingBottom: 16
+    }
+})
 
 export default Search

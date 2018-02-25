@@ -28,8 +28,9 @@ let loadIcons = (icons) => {
 }
 
 export default registerApp = async (Store, Provider) => {
-    Navigation.registerComponent('Screen.Search', () => Screens.Search)
+    Navigation.registerComponent('Screen.Search', () => Screens.Search, Store, Provider)
     Navigation.registerComponent('Screen.Download', () => Screens.Download)
+    Navigation.registerComponent('Screen.Player', () => Screens.Player)
 
     loadIcons({
         'ios-search': [30, '#ddd'],
@@ -43,7 +44,8 @@ export default registerApp = async (Store, Provider) => {
             appStyle: {
                 largeTitle: true,
                 navBarNoBorder: true
-            }
+            },
+            passProps: {}
         })
     })
 }
