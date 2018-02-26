@@ -3638,6 +3638,18 @@ react-native-elevated-view@^0.0.6:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/react-native-elevated-view/-/react-native-elevated-view-0.0.6.tgz#560cc9ab16cfd5cb5ea821521558fc711e57e231"
 
+react-native-indicators@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/react-native-indicators/-/react-native-indicators-0.12.0.tgz#97e7f0eff7dbef719ec4017d7909ba1677536175"
+  dependencies:
+    prop-types "^15.5.10"
+
+react-native-linear-gradient@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.4.0.tgz#51d8ea12bb72a59bede9edc87b694b16b64cf435"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-navigation@^1.1.385:
   version "1.1.385"
   resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.385.tgz#485910bc1bffcd11de31fe3ae12fbc8b755d0104"
@@ -4155,6 +4167,10 @@ shell-quote@1.6.1, shell-quote@^1.6.1:
 shellwords@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
+
+shortid@^2.2.8:
+  version "2.2.8"
+  resolved "https://registry.yarnpkg.com/shortid/-/shortid-2.2.8.tgz#033b117d6a2e975804f6f0969dbe7d3d0b355131"
 
 signal-exit@^3.0.0, signal-exit@^3.0.2:
   version "3.0.2"

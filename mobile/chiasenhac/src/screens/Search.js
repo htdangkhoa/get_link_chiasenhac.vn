@@ -11,6 +11,8 @@ import {
 import { OptimizedFlatList } from 'react-native-optimized-flatlist'
 import axios from 'axios'
 import { Player } from 'react-native-audio-toolkit'
+import { UIActivityIndicator } from 'react-native-indicators'
+import shortId from 'shortid'
 
 // My Component
 import SearchField from '../components/SearchField'
@@ -23,7 +25,9 @@ class Search extends Component {
 
         this.state = {
             data: [],
-            isTop: true
+            isTop: true,
+            refreshing: false,
+            page: 1
         }
     }
 
@@ -45,7 +49,7 @@ class Search extends Component {
         _r.data.formData.forEach((song, index) => {
             dt.push({
                 song,
-                key: `${index}`
+                key: `${shortId.generate()}`
             })
         })
 
@@ -110,6 +114,36 @@ class Search extends Component {
         this._listViewOffset = currentOffset
     }
 
+    _onInfinityRefresh = async () => {
+        if (this.state.data.length > 0) {
+            this.setState({refreshing: true})
+
+            let dt = [...this.state.data]
+
+            this.setState({page: this.state.page + 1})
+
+            let _r = await axios({
+                url: 'https://chiasenhac-njoikkxzdm.now.sh/search',
+                method: 'get',
+                params: {
+                    q: 'xin dung lang im',
+                    p: this.state.page
+                }
+            })
+
+            _r.data.formData.forEach((song, index) => {
+                dt.push({
+                    song,
+                    key: `${shortId.generate()}`
+                })
+            })
+
+
+            this.setState({ data: dt })
+            this.setState({refreshing: false})
+        }
+    }
+
     render() {
         return(
                 <SafeAreaView style={styles.container}>
@@ -126,10 +160,19 @@ class Search extends Component {
                     <OptimizedFlatList 
                         style={styles.optimizedFlatList} 
                         onScroll={(Platform.OS === 'ios') ? this._onScroll : ''} 
+                        onEndReachedThreshold={0} 
+                        onEndReached={this._onInfinityRefresh.bind(this)}
+
                         data={this.state.data} 
-                        renderItem={({item}) => 
-                            <ListItem title={item.song.title} artist={item.song.artist} quality={item.song.quality} />
+                        renderItem={({item, index}) => 
+                            <ListItem lastItem={index === this.state.data.length - 1} title={item.song.title} artist={item.song.artist} quality={item.song.quality} />
                         } />
+
+                    {(this.state.refreshing) ? (
+                        <View style={{height: 30, backgroundColor: '#F8F8F8'}} >
+                            <UIActivityIndicator size={22} />
+                        </View>
+                    ) : null}
 
                     <MiniPlayer />
                 </SafeAreaView>
@@ -150,7 +193,7 @@ const styles = StyleSheet.create({
 
     optimizedFlatList: {
         flex: 1,
-        paddingBottom: 16
+        // paddingBottom: 48
     }
 })
 

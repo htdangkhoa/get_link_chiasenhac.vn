@@ -4,6 +4,7 @@ import ElevatedView from 'react-native-elevated-view'
 import { iOSUIKit, iOSColors } from 'react-native-typography'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Navigation } from 'react-native-navigation'
+import LinearGradient from 'react-native-linear-gradient'
 
 class ListItem extends Component {
     constructor(props) {
@@ -19,30 +20,36 @@ class ListItem extends Component {
     getQuality = (quality) => {
         switch (quality.toLowerCase()) {
             case '32kbps': case '180p':
-                return { backgroundColor: iOSColors.tealBlue }
+                return [iOSColors.yellow, iOSColors.orange]
             case '128kbps': case '360p':
-                return { backgroundColor: iOSColors.green }
+                return [iOSColors.yellow, iOSColors.green]
             case '320kbps': case '480p':
-                return { backgroundColor: iOSColors.blue }
-            case '500kbps': case 'HD 720p':
-                return { backgroundColor: iOSColors.orange }
-            case 'lossless': case 'HD 1080p':
-                return { backgroundColor: iOSColors.pink }
-            default: return { backgroundColor: iOSColors.tealBlue }
+                return [iOSColors.purple, iOSColors.tealBlue]
+            case '500kbps': case 'hd 720p':
+                return [iOSColors.red, iOSColors.yellow]
+            case 'lossless': case 'hd 1080p':
+                return [iOSColors.red, iOSColors.orange]
+            default: return [iOSColors.tealBlue, iOSColors.blue]
         }
     }
 
     render() {
         return(
             <TouchableOpacity onPress={this._onPress.bind(this)} >
-                <ElevatedView elevation={(Platform.OS === 'ios') ? 24 : 5} style={styles.container} >
+                <ElevatedView elevation={(Platform.OS === 'ios') ? 24 : 5} style={this.props.lastItem === false ? styles.container : [styles.container, {marginBottom: 48}]} >
                     <View style={styles.leftContainer} >
                         <Text style={styles.title} numberOfLines={1} >{this.props.title}</Text>
                         <Text style={styles.artist} >{this.props.artist}</Text>
                         <View style={styles.qualityContainer} >
-                            <View style={[this.getQuality(this.props.quality), styles.qualityTextContainer]} >
+                            {/* <View style={[this.getQuality(this.props.quality), styles.qualityTextContainer]} >
                                 <Text style={styles.qualityText} >{this.props.quality}</Text>
-                            </View>
+                            </View> */}
+                            <LinearGradient 
+                                start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 0.0}} 
+                                colors={this.getQuality(this.props.quality)}
+                                style={styles.qualityTextContainer} >
+                                <Text style={styles.qualityText} >{this.props.quality}</Text>
+                            </LinearGradient>
                         </View>
                     </View>
 

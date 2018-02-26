@@ -4,6 +4,7 @@ import android.app.Application;
 import android.support.annotation.Nullable;
 
 import com.facebook.react.ReactApplication;
+import com.BV.LinearGradient.LinearGradientPackage;
 import com.futurice.rctaudiotoolkit.AudioPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
@@ -28,6 +29,7 @@ public class MainApplication extends NavigationApplication {
 //    protected List<ReactPackage> getPackages() {
 //      return Arrays.<ReactPackage>asList(
 //          new MainReactPackage(),
+            new LinearGradientPackage(),
 //            new AudioPackage(),
 //            new VectorIconsPackage(),
 //            new NavigationReactPackage()
