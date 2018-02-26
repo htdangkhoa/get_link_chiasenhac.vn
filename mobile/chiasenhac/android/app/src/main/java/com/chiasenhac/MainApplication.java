@@ -1,46 +1,74 @@
 package com.chiasenhac;
 
 import android.app.Application;
+import android.support.annotation.Nullable;
 
 import com.facebook.react.ReactApplication;
 import com.futurice.rctaudiotoolkit.AudioPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.reactnativenavigation.NavigationReactPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.reactnativenavigation.NavigationApplication;
+import com.reactnativenavigation.bridge.NavigationReactPackage;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends NavigationApplication {
 
-  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
-    @Override
-    public boolean getUseDeveloperSupport() {
-      return BuildConfig.DEBUG;
-    }
+//  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
+//    @Override
+//    public boolean getUseDeveloperSupport() {
+//      return BuildConfig.DEBUG;
+//    }
+//
+//    @Override
+//    protected List<ReactPackage> getPackages() {
+//      return Arrays.<ReactPackage>asList(
+//          new MainReactPackage(),
+//            new AudioPackage(),
+//            new VectorIconsPackage(),
+//            new NavigationReactPackage()
+//      );
+//    }
+//
+//    @Override
+//    protected String getJSMainModuleName() {
+//      return "index";
+//    }
+//  };
 
-    @Override
-    protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
+  protected List<ReactPackage> getPackages() {
+    return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new AudioPackage(),
             new VectorIconsPackage(),
             new NavigationReactPackage()
       );
-    }
+  }
 
-    @Override
-    protected String getJSMainModuleName() {
-      return "index";
-    }
-  };
+//  @Override
+//  public ReactNativeHost getReactNativeHost() {
+//    return mReactNativeHost;
+//  }
 
   @Override
-  public ReactNativeHost getReactNativeHost() {
-    return mReactNativeHost;
+  public boolean isDebug() {
+    return BuildConfig.DEBUG;
+  }
+
+  @Nullable
+  @Override
+  public List<ReactPackage> createAdditionalReactPackages() {
+    return getPackages();
+  }
+
+  @Nullable
+  @Override
+  public String getJSMainModuleName() {
+    return "index";
   }
 
   @Override

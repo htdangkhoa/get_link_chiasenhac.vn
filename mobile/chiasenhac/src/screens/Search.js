@@ -34,8 +34,11 @@ class Search extends Component {
         let dt = []
 
         let _r = await axios({
-            url: 'http://192.168.1.6:9000/search?q=xin dung lang im',
-            method: 'get'
+            url: 'https://chiasenhac-njoikkxzdm.now.sh/search',
+            method: 'get',
+            params: {
+                q: 'xin dung lang im'
+            }
         })
 
         _r.data.formData.forEach((song, index) => {
