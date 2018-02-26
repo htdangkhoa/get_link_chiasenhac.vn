@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Platform } from 'react-native'
 import ElevatedView from 'react-native-elevated-view'
 import { iOSUIKit, iOSColors } from 'react-native-typography'
 import Icon from 'react-native-vector-icons/Ionicons'
@@ -35,7 +35,7 @@ class ListItem extends Component {
     render() {
         return(
             <TouchableOpacity onPress={this._onPress.bind(this)} >
-                <ElevatedView elevation={24} style={styles.container} >
+                <ElevatedView elevation={(Platform.OS === 'ios') ? 24 : 5} style={styles.container} >
                     <View style={styles.leftContainer} >
                         <Text style={styles.title} numberOfLines={1} >{this.props.title}</Text>
                         <Text style={styles.artist} >{this.props.artist}</Text>

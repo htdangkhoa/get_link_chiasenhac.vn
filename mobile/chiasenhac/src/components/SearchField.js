@@ -10,7 +10,7 @@ class SearchField extends Component {
         return(
             <View style={styles.container} >
                 <Icon name='ios-search' size={19} color="#8E8E93" />
-                <TextInput placeholder='Search' placeholderTextColor='#8E8E93' style={styles.textInput} />
+                <TextInput placeholder='Search' placeholderTextColor='#8E8E93' underlineColorAndroid='transparent' style={styles.textInput} />
             </View>
         )
     }
@@ -35,7 +35,9 @@ const styles = StyleSheet.create({
     textInput: {
         flex: 1,
         fontSize: 17, 
-        marginLeft: 8
+        marginLeft: 8,
+        paddingTop: 4,
+        paddingBottom: 4
     }
 })
 

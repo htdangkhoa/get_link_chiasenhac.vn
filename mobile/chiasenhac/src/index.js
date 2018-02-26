@@ -1,3 +1,4 @@
+import { Platform } from 'react-native'
 import { Navigation } from 'react-native-navigation'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
@@ -46,7 +47,8 @@ export default registerApp = async (Store, Provider) => {
                 navBarNoBorder: true,
                 screenBackgroundColor: '#FFFFFF',
                 tabBarBackgroundColor: '#F8F8F8',
-                navBarBackgroundColor: '#F8F8F8'
+                navBarBackgroundColor: '#F8F8F8',
+                navBarTitleTextCentered: Platform.OS === 'android'
             }
         })
     })

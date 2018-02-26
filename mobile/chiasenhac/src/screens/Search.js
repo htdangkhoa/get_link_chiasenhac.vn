@@ -5,7 +5,8 @@ import {
     View, 
     Text, 
     LayoutAnimation, 
-    StyleSheet 
+    StyleSheet, 
+    Platform
 } from 'react-native'
 import { OptimizedFlatList } from 'react-native-optimized-flatlist'
 import axios from 'axios'
@@ -112,7 +113,7 @@ class Search extends Component {
     render() {
         return(
                 <SafeAreaView style={styles.container}>
-                    <View style={styles.scrollView} >
+                    <View style={(Platform.OS === 'ios') ? styles.scrollView : {}} >
                         <ScrollView 
                             ref='scrollView' 
                             style={{}} 
@@ -124,7 +125,7 @@ class Search extends Component {
 
                     <OptimizedFlatList 
                         style={styles.optimizedFlatList} 
-                        onScroll={this._onScroll} 
+                        onScroll={(Platform.OS === 'ios') ? this._onScroll : ''} 
                         data={this.state.data} 
                         renderItem={({item}) => 
                             <ListItem title={item.song.title} artist={item.song.artist} quality={item.song.quality} />
