@@ -1,5 +1,5 @@
 {
-    "presets": ["es2016", "stage-3", "node8"],
+    "presets": ["env", "stage-2"],
     "plugins": [
         ["transform-react-jsx", { "pragma" : "h" }]
     ]

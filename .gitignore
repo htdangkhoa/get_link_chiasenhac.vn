@@ -56,3 +56,4 @@ typings/
 
 # Build
 dist
+client/build
