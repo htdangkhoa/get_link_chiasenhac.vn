@@ -1,4 +1,3 @@
-import jquery from 'jquery'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import { h, render } from 'preact'
@@ -9,6 +8,7 @@ import styledComponents from 'styled-components'
 import Router from './router'
 
 // Redux
+import 'jquery'
 import { Provider } from 'react-redux'
 import store from './src/redux/store'
 
