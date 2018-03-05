@@ -328,7 +328,7 @@ let download = async (url, res) => {
             let arr = $(elem).text().split(' ')
             let quality = arr[arr.length - 3]
             let file_type = (url.indexOf('chiasenhac.vn/hd/video/') === -1) ? arr[arr.length - 4].toLowerCase() : arr[arr.length - 5].toLowerCase()
-            let label = `${file_type.toUpperCase()}_${quality}`
+            let label = `${quality}_${file_type.toUpperCase()}`
 
             array_download.push({
                 link: link.replace(/ /g, ''),
