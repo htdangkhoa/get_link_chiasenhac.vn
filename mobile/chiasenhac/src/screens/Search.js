@@ -139,7 +139,7 @@ class Search extends Component {
     }
 
     _onRenderItem = ({item, index}) => {
-        return <ListItem lastItem={index === this.props.songs.length - 1} title={item.song.title} artist={item.song.artist} quality={item.song.quality} />
+        return <ListItem lastItem={index === this.props.songs.length - 1} title={item.song.title} artist={item.song.artist} quality={item.song.quality} url={item.song.url} />
     }
 
     render() {

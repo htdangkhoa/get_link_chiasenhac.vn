@@ -325,10 +325,10 @@ let download = async (url, res) => {
         
         $('#downloadlink2 b a').each((i, elem) => {
             let link = $(elem).attr('href')
-            let arr = link.split(' ')
-            let label = arr[1].substring(0, arr[1].indexOf('.')).replace(/\[/g, '').replace(/\]/g, '')
-            let quality = label.split('_')[0]
-            let file_type = label.split('_')[1].toLocaleLowerCase()
+            let arr = $(elem).text().split(' ')
+            let quality = arr[arr.length - 3]
+            let file_type = (url.indexOf('chiasenhac.vn/hd/video/') === -1) ? arr[arr.length - 4].toLowerCase() : arr[arr.length - 5].toLowerCase()
+            let label = `${file_type.toUpperCase()}_${quality}`
 
             array_download.push({
                 link: link.replace(/ /g, ''),

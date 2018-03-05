@@ -6,6 +6,8 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { Navigation } from 'react-native-navigation'
 import LinearGradient from 'react-native-linear-gradient'
 import ActionSheet from '@yfuks/react-native-action-sheet'
+import Share from 'react-native-share'
+import axios from 'axios'
 
 class ListItem extends Component {
     constructor(props) {
@@ -34,14 +36,61 @@ class ListItem extends Component {
         }
     }
 
-    _onPress = () => {
+    _onPressMenu = (link) => {
         ActionSheet.showActionSheetWithOptions({
             options: ['Download', 'Share', 'Cancel'],
             cancelButtonIndex: 2,
-            // destructiveButtonIndex: 2,
             tintColor: 'blue'
-        }, buttonIndex => {
-            console.log('button clicked :', buttonIndex);
+        }, async buttonIndex => {
+            switch (buttonIndex) {
+                case 0: {
+                    let _r = await axios({
+                        url: 'http://0.0.0.0:9000/download',
+                        method: 'GET',
+                        params: {
+                            link
+                        }
+                    })
+
+                    let options = []
+                    await _r.data.forEach((item, i) => {
+                        options.push(item.quality)
+                        // options.unshift(item.quality)
+                        // options.pop()
+                    })
+                    await options.sort((a, b) => {
+                        let labelA = a.toLowerCase()
+                        let labelb = b.toLowerCase()
+
+                        if (labelA > labelb) return -1
+    
+                        if (labelA < labelb) return 1
+    
+                        return 0
+                    })
+                    await options.push('Cancel')
+
+                    ActionSheet.showActionSheetWithOptions({
+                        options,
+                        cancelButtonIndex: options.length - 1,
+                        tintColor: 'blue'
+                    }, downloadIndex => {
+
+                    })
+
+                    break
+                }
+                case 1:
+                    Share.open({
+                        title: "React Native",
+                        message: "Hola mundo",
+                        url: "http://facebook.github.io/react-native/",
+                        subject: "Share Link" //  for email
+                    })
+                    break;
+                default:
+                    break;
+            }
         })
     }
 
@@ -65,7 +114,7 @@ class ListItem extends Component {
                         </View>
                     </View>
 
-                    <TouchableOpacity onPress={this._onPress.bind(this)} >
+                    <TouchableOpacity onPress={this._onPressMenu.bind(this, this.props.url)} >
                         <Icon 
                             name='ios-more' 
                             size={22} 
