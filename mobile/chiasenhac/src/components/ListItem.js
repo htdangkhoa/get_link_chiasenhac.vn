@@ -36,7 +36,7 @@ class ListItem extends Component {
     render() {
         return(
             <TouchableOpacity onPress={this._onPress.bind(this)} >
-                <ElevatedView elevation={(Platform.OS === 'ios') ? 24 : 5} style={this.props.lastItem === false ? styles.container : [styles.container, {marginBottom: 48}]} >
+                <ElevatedView elevation={(Platform.OS === 'ios') ? 24 : 5} style={this.props.lastItem === false ? styles.container : [styles.container, {marginBottom: 56}]} >
                     <View style={styles.leftContainer} >
                         <Text style={styles.title} numberOfLines={1} >{this.props.title}</Text>
                         <Text style={styles.artist} >{this.props.artist}</Text>

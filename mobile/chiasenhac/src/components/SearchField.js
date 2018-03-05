@@ -6,7 +6,11 @@ import shortId from 'shortid'
 
 // Redux
 import { connect } from 'react-redux'
-import { ON_FETCH_SONG_FROM_SERVER, ON_RE_FETCH_DATA } from '../redux/Action'
+import { 
+    ON_FETCH_SONG_FROM_SERVER, 
+    ON_RE_FETCH_DATA,
+    ON_SAVE_QUERY 
+} from '../redux/Action'
 
 class SearchField extends Component {
     constructor(props) {
@@ -25,7 +29,18 @@ class SearchField extends Component {
     _onSubmitEditing = async event => {
         let { dispatch } = this.props
 
+        /**
+         * Clean up result of search.
+         */
         dispatch({type: ON_RE_FETCH_DATA})
+
+        /**
+         * Stored query.
+         */
+        dispatch({
+            type: ON_SAVE_QUERY,
+            query: this.state.value
+        })
 
         let dt = []
 
@@ -97,6 +112,7 @@ const styles = StyleSheet.create({
 
 export default connect(state => {
     return {
+        query: state.query,
         songs: state.songs
     }
 })(SearchField)

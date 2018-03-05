@@ -102,8 +102,9 @@ class Search extends Component {
 
     _onInfinityRefresh = async () => {
         if (this.props.songs.length > 0) {
-            this.setState({page: this.state.page + 1})
-            this._onRequestData('xin dung lang im', this.state.page)
+            await this.setState({page: this.state.page + 1})
+
+            this._onRequestData(this.props.query, this.state.page)
         }
     }
 
@@ -193,6 +194,7 @@ const styles = StyleSheet.create({
 // export default Search
 export default connect(state => {
     return {
+        query: state.query,
         songs: state.songs
     }
 })(Search)
