@@ -137,6 +137,11 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-navigation')
+    compile project(':react-native-linear-gradient')
+    compile project(':react-native-audio-toolkit')
+    compile project(':@yfuks/react-native-action-sheet')
     compile project(':react-native-linear-gradient')
     compile project(':react-native-audio-toolkit')
     compile project(':react-native-vector-icons')

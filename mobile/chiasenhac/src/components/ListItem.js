@@ -5,6 +5,7 @@ import { iOSUIKit, iOSColors } from 'react-native-typography'
 import Icon from 'react-native-vector-icons/Ionicons'
 import { Navigation } from 'react-native-navigation'
 import LinearGradient from 'react-native-linear-gradient'
+import ActionSheet from '@yfuks/react-native-action-sheet'
 
 class ListItem extends Component {
     constructor(props) {
@@ -33,6 +34,17 @@ class ListItem extends Component {
         }
     }
 
+    _onPress = () => {
+        ActionSheet.showActionSheetWithOptions({
+            options: ['Download', 'Share', 'Cancel'],
+            cancelButtonIndex: 2,
+            // destructiveButtonIndex: 2,
+            tintColor: 'blue'
+        }, buttonIndex => {
+            console.log('button clicked :', buttonIndex);
+        })
+    }
+
     render() {
         return(
             <TouchableOpacity onPress={this._onPress.bind(this)} >
@@ -53,7 +65,7 @@ class ListItem extends Component {
                         </View>
                     </View>
 
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={this._onPress.bind(this)} >
                         <Icon 
                             name='ios-more' 
                             size={22} 

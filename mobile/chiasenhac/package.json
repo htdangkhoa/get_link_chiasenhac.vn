@@ -8,6 +8,7 @@
     "vector-icons": "rm ./node_modules/react-native/local-cli/core/__fixtures__/files/package.json"
   },
   "dependencies": {
+    "@yfuks/react-native-action-sheet": "^0.0.4",
     "axios": "^0.18.0",
     "react": "16.2.0",
     "react-native": "0.53.3",
