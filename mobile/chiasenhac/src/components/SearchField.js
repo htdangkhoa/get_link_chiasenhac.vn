@@ -1,16 +1,70 @@
 import React, { Component } from 'react'
 import { View, TextInput, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/Ionicons'
+import axios from 'axios'
+import shortId from 'shortid'
 
 // Redux
 import { connect } from 'react-redux'
+import { ON_FETCH_SONG_FROM_SERVER, ON_RE_FETCH_DATA } from '../redux/Action'
 
 class SearchField extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            value: ''
+        }
+    }
+
+    _onChangeText = value => {
+        console.log(value)
+        this.setState({value})
+    }
+
+    _onSubmitEditing = async event => {
+        let { dispatch } = this.props
+
+        dispatch({type: ON_RE_FETCH_DATA})
+
+        let dt = []
+
+        let _r = await axios({
+            url: 'http://0.0.0.0:9000/search',
+            method: 'GET',
+            params: {
+                q: this.state.value,
+                p: 1
+            }
+        })
+
+        _r.data.formData.forEach((song, index) => {
+            dt.push({
+                song,
+                key: `${shortId.generate()}`
+            })
+        })
+
+        dispatch({
+            type: ON_FETCH_SONG_FROM_SERVER,
+            songs: dt
+        })
+    }
+
     render() {
         return(
             <View style={styles.container} >
                 <Icon name='ios-search' size={19} color="#8E8E93" />
-                <TextInput placeholder='Search' placeholderTextColor='#8E8E93' underlineColorAndroid='transparent' style={styles.textInput} />
+                <TextInput 
+                    placeholder='Search' 
+                    placeholderTextColor='#8E8E93' 
+                    underlineColorAndroid='transparent' 
+                    keyboardType='default'
+                    returnKeyType='done'
+                    style={styles.textInput}
+                    onChangeText={this._onChangeText}
+                    onSubmitEditing={this._onSubmitEditing}
+                />
             </View>
         )
     }
@@ -41,4 +95,8 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SearchField
+export default connect(state => {
+    return {
+        songs: state.songs
+    }
+})(SearchField)

@@ -1,16 +1,20 @@
-import { ON_SEARCH_FIELD_LAYOUT } from './Action'
+import { ON_FETCH_SONG_FROM_SERVER, ON_RE_FETCH_DATA } from './Action'
 
 const defaultState = {
-    search_field_height: 0,
     songs: [],
     links: []
 }
 
 const reducer = (state = defaultState, action) => {
     switch (action.type) {
-        case ON_SEARCH_FIELD_LAYOUT:
+        case ON_FETCH_SONG_FROM_SERVER:
             return {
-                search_field_height: action.search_field_height
+                songs: [...action.songs]
+            }
+        case ON_RE_FETCH_DATA: 
+            return {
+                songs: [],
+                links: []
             }
         default:
             return state

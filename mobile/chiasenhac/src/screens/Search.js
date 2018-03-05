@@ -6,13 +6,16 @@ import {
     Text, 
     LayoutAnimation, 
     StyleSheet, 
-    Platform
+    Platform,
+    FlatList
 } from 'react-native'
-import { OptimizedFlatList } from 'react-native-optimized-flatlist'
 import axios from 'axios'
 import { Player } from 'react-native-audio-toolkit'
 import { UIActivityIndicator } from 'react-native-indicators'
 import shortId from 'shortid'
+
+import { connect } from 'react-redux'
+import { ON_FETCH_SONG_FROM_SERVER } from '../redux/Action'
 
 // My Component
 import SearchField from '../components/SearchField'
@@ -35,46 +38,29 @@ class Search extends Component {
         this.player = null
 
         this._reloadPlayer()
-
-        let dt = []
-
-        let _r = await axios({
-            url: 'https://chiasenhac-njoikkxzdm.now.sh/search',
-            method: 'get',
-            params: {
-                q: 'xin dung lang im'
-            }
-        })
-
-        _r.data.formData.forEach((song, index) => {
-            dt.push({
-                song,
-                key: `${shortId.generate()}`
-            })
-        })
-
-        this.setState({data: dt})
+        
+        // this._onRequestData('xin dung lang im', this.state.page)
     }
 
     _reloadPlayer = () => {
         if (this.player) {
             this.player.destroy();
-          }
+        }
       
-          this.player = new Player('http://data3.chiasenhac.com/downloads/1793/1/1792139-ba17664c/flac/1%202%203%204%20-%20Chi%20Dan[Lossless_FLAC].flac', {
-            autoDestroy: false,
-            continuesToPlayInBackground: true,
-            wakeLock: true
-          }).prepare((err) => {
-            if (err) {
-              console.log('error at _reloadPlayer():');
-              console.log(err);
-            } else {
-              this.player.looping = false
-            }
+        //   this.player = new Player('http://data3.chiasenhac.com/downloads/1793/3/1792139-ba17664c/flac/1%202%203%204%20-%20Chi%20Dan[Lossless_FLAC].flac', {
+        //     autoDestroy: false,
+        //     continuesToPlayInBackground: true,
+        //     wakeLock: true
+        //   }).prepare((err) => {
+        //     if (err) {
+        //       console.log('error at _reloadPlayer():');
+        //       console.log(err);
+        //     } else {
+        //       this.player.looping = false
+        //     }
       
-            // this._updateState();
-          }).play()
+        //     // this._updateState();
+        //   }).play()
     }
 
     _listViewOffset = 0
@@ -115,33 +101,44 @@ class Search extends Component {
     }
 
     _onInfinityRefresh = async () => {
-        if (this.state.data.length > 0) {
-            this.setState({refreshing: true})
-
-            let dt = [...this.state.data]
-
+        if (this.props.songs.length > 0) {
             this.setState({page: this.state.page + 1})
-
-            let _r = await axios({
-                url: 'https://chiasenhac-njoikkxzdm.now.sh/search',
-                method: 'get',
-                params: {
-                    q: 'xin dung lang im',
-                    p: this.state.page
-                }
-            })
-
-            _r.data.formData.forEach((song, index) => {
-                dt.push({
-                    song,
-                    key: `${shortId.generate()}`
-                })
-            })
-
-
-            this.setState({ data: dt })
-            this.setState({refreshing: false})
+            this._onRequestData('xin dung lang im', this.state.page)
         }
+    }
+
+    _onRequestData = async (q, p) => {
+        if (this.props.songs.length > 0) this.setState({refreshing: true})
+
+        let dt = [...this.props.songs]
+
+        let _r = await axios({
+            url: 'http://0.0.0.0:9000/search',
+            method: 'GET',
+            params: {
+                q,
+                p
+            }
+        })
+
+        _r.data.formData.forEach((song, index) => {
+            dt.push({
+                song,
+                key: `${shortId.generate()}`
+            })
+        })
+
+        let { dispatch } = this.props
+        dispatch({
+            type: ON_FETCH_SONG_FROM_SERVER,
+            songs: dt
+        })
+
+        this.setState({refreshing: false})
+    }
+
+    _onRenderItem = ({item, index}) => {
+        return <ListItem lastItem={index === this.props.songs.length - 1} title={item.song.title} artist={item.song.artist} quality={item.song.quality} />
     }
 
     render() {
@@ -150,23 +147,20 @@ class Search extends Component {
                     <View style={(Platform.OS === 'ios') ? styles.scrollView : {}} >
                         <ScrollView 
                             ref='scrollView' 
-                            style={{}} 
                             scrollEnabled={false} >
 
                             <SearchField />
                         </ScrollView>
                     </View>
 
-                    <OptimizedFlatList 
+                    <FlatList 
                         style={styles.optimizedFlatList} 
                         onScroll={(Platform.OS === 'ios') ? this._onScroll : ''} 
                         onEndReachedThreshold={0} 
                         onEndReached={this._onInfinityRefresh.bind(this)}
-
-                        data={this.state.data} 
-                        renderItem={({item, index}) => 
-                            <ListItem lastItem={index === this.state.data.length - 1} title={item.song.title} artist={item.song.artist} quality={item.song.quality} />
-                        } />
+                        data={this.props.songs} 
+                        initialNumToRender={4}
+                        renderItem={this._onRenderItem} />
 
                     {(this.state.refreshing) ? (
                         <View style={{height: 30, backgroundColor: '#F8F8F8'}} >
@@ -192,9 +186,13 @@ const styles = StyleSheet.create({
     },
 
     optimizedFlatList: {
-        flex: 1,
-        // paddingBottom: 48
+        flex: 1
     }
 })
 
-export default Search
+// export default Search
+export default connect(state => {
+    return {
+        songs: state.songs
+    }
+})(Search)
