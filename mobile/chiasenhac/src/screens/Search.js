@@ -22,12 +22,17 @@ import SearchField from '../components/SearchField'
 import ListItem from '../components/ListItem'
 import MiniPlayer from '../components/MiniPlayer'
 
+const playerOptions = {
+    autoDestroy: false,
+    continuesToPlayInBackground: true,
+    wakeLock: true
+}
+
 class Search extends Component {
     constructor(props) {
         super(props)
 
         this.state = {
-            data: [],
             isTop: true,
             refreshing: false,
             page: 1
@@ -36,31 +41,18 @@ class Search extends Component {
 
     async componentWillMount() {
         this.player = null
-
-        this._reloadPlayer()
         
-        // this._onRequestData('xin dung lang im', this.state.page)
+        this._onRequestData('')
     }
 
-    _reloadPlayer = () => {
-        if (this.player) {
-            this.player.destroy();
-        }
-      
-        //   this.player = new Player('http://data3.chiasenhac.com/downloads/1793/3/1792139-ba17664c/flac/1%202%203%204%20-%20Chi%20Dan[Lossless_FLAC].flac', {
-        //     autoDestroy: false,
-        //     continuesToPlayInBackground: true,
-        //     wakeLock: true
-        //   }).prepare((err) => {
-        //     if (err) {
-        //       console.log('error at _reloadPlayer():');
-        //       console.log(err);
-        //     } else {
-        //       this.player.looping = false
-        //     }
-      
-        //     // this._updateState();
-        //   }).play()
+    static _onLoadAudioPlayer = (link) => {
+        if (this.player) this.player.destroy()
+
+        this.player = new Player(link, playerOptions)
+        .prepare(error => {
+            if (error) console.log(error)
+        })
+        .play()
     }
 
     _listViewOffset = 0

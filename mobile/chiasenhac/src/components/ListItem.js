@@ -8,18 +8,10 @@ import LinearGradient from 'react-native-linear-gradient'
 import ActionSheet from '@yfuks/react-native-action-sheet'
 import Share from 'react-native-share'
 import axios from 'axios'
+import { Player } from 'react-native-audio-toolkit'
+import Search from '../screens/Search'
 
 class ListItem extends Component {
-    constructor(props) {
-        super(props)
-    }
-
-    _onPress = () => {
-        // Navigation.showModal({
-        //     screen: 'Screen.Player',
-        // })
-    }
-
     getQuality = (quality) => {
         switch (quality.toLowerCase()) {
             case '32kbps': case '180p':
@@ -36,6 +28,18 @@ class ListItem extends Component {
         }
     }
 
+    _onPress = async (link) => {
+        let _r = await this._onRequestServer(link)
+
+        let links = await this._onSortArray(_r.data)
+
+        Search._onLoadAudioPlayer(links[links.length - 1].link)
+
+        // Navigation.showModal({
+        //     screen: 'Screen.Player',
+        // })
+    }
+
     _onPressMenu = (link) => {
         ActionSheet.showActionSheetWithOptions({
             options: ['Download', 'Share', 'Cancel'],
@@ -44,30 +48,15 @@ class ListItem extends Component {
         }, async buttonIndex => {
             switch (buttonIndex) {
                 case 0: {
-                    let _r = await axios({
-                        url: 'http://0.0.0.0:9000/download',
-                        method: 'GET',
-                        params: {
-                            link
-                        }
-                    })
+                    let _r = await this._onRequestServer(link)
 
                     let options = []
                     await _r.data.forEach((item, i) => {
                         options.push(item.quality)
-                        // options.unshift(item.quality)
-                        // options.pop()
                     })
-                    await options.sort((a, b) => {
-                        let labelA = a.toLowerCase()
-                        let labelb = b.toLowerCase()
 
-                        if (labelA > labelb) return -1
-    
-                        if (labelA < labelb) return 1
-    
-                        return 0
-                    })
+                    await this._onSortArray(options)
+
                     await options.push('Cancel')
 
                     ActionSheet.showActionSheetWithOptions({
@@ -77,7 +66,6 @@ class ListItem extends Component {
                     }, downloadIndex => {
 
                     })
-
                     break
                 }
                 case 1:
@@ -94,17 +82,39 @@ class ListItem extends Component {
         })
     }
 
+    _onRequestServer = async (link) => {
+        let _r = await axios({
+            url: 'http://0.0.0.0:9000/download',
+            method: 'GET',
+            params: {
+                link
+            }
+        })
+
+        return _r
+    }
+
+    _onSortArray = (array) => {
+        return array.sort((a, b) => {
+            let labelA = (a.label) ? a.label.toLowerCase() : a.toLowerCase()
+            let labelb = (b.label) ? b.label.toLowerCase() : b.toLowerCase()
+
+            if (labelA > labelb) return -1
+
+            if (labelA < labelb) return 1
+
+            return 0
+        })
+    }
+
     render() {
         return(
-            <TouchableOpacity onPress={this._onPress.bind(this)} >
+            <TouchableOpacity onPress={this._onPress.bind(this, this.props.url)} >
                 <ElevatedView elevation={(Platform.OS === 'ios') ? 24 : 5} style={this.props.lastItem === false ? styles.container : [styles.container, {marginBottom: 56}]} >
                     <View style={styles.leftContainer} >
                         <Text style={styles.title} numberOfLines={1} >{this.props.title}</Text>
                         <Text style={styles.artist} >{this.props.artist}</Text>
                         <View style={styles.qualityContainer} >
-                            {/* <View style={[this.getQuality(this.props.quality), styles.qualityTextContainer]} >
-                                <Text style={styles.qualityText} >{this.props.quality}</Text>
-                            </View> */}
                             <LinearGradient 
                                 start={{x: 0.0, y: 0.0}} end={{x: 1.0, y: 0.0}} 
                                 colors={this.getQuality(this.props.quality)}
