@@ -10,18 +10,18 @@
     "start": "node build/bundle.js"
   },
   "dependencies": {
-    "axios": "^0.17.1",
+    "axios": "^0.19.0",
     "cheerio": "^1.0.0-rc.2",
     "consolidate": "^0.15.0",
     "cors": "^2.8.4",
-    "dotenv": "^5.0.0",
+    "dotenv": "^8.2.0",
     "express": "^4.16.2",
     "morgan": "^1.9.0",
-    "mustache": "^2.3.0"
+    "mustache": "^3.1.0"
   },
   "devDependencies": {
-    "nodemon": "^1.14.12",
+    "nodemon": "^2.0.2",
     "source-map-support": "^0.5.3",
-    "webpack": "^3.11.0"
+    "webpack": "^4.41.2"
   }
 }
