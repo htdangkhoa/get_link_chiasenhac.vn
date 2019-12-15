@@ -1,0 +1,12 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "client/package.json",
+        "mobile/chiasenhac/package.json",
+        "server/master/package.json",
+        "server/worker/package.json"
+      ]
+    }
+  }
+}
